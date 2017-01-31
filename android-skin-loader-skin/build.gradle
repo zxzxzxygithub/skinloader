@@ -1,0 +1,100 @@
+apply plugin: 'com.android.application'
+
+def skinName = "BlackFantacy.skin"
+
+android {
+    tasks.whenTaskAdded { task ->
+        if (
+        task.name.contains("lint")
+                || task.name.equals("clean")
+                || task.name.contains("Aidl")
+                || task.name.contains("mockableAndroidJar")
+                || task.name.contains("UnitTest")
+                || task.name.contains("AndroidTest")
+                || task.name.contains("Ndk")
+                || task.name.contains("Jni")
+        ) {
+            task.enabled = false
+        }
+    }
+
+    signingConfigs {
+        config {
+            keyAlias 'fengjun'
+            keyPassword 'fengjun'
+            storeFile file('keystore.key')
+            storePassword 'fengjun'
+        }
+    }
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+    defaultConfig {
+        applicationId "com.example.android_skin_laoder_skin"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+}
+
+final def TARGET_SKIN_DIR = '../skin-package/'
+
+//.doLast() {
+//    println("=====================assembleRelease.doLast.begin.=========================")
+//
+//    def dir = new File(TARGET_SKIN_DIR)
+//    if (!dir.exists()) {
+//        dir.mkdirs()
+//    }
+//
+//    def f = new File(TARGET_SKIN_DIR + skinName)
+//    if (f.exists()) {
+//        f.delete()
+//    }
+//
+//    copy {
+//        from('build/outputs/apk')
+//        into(TARGET_SKIN_DIR)
+//        include '*.apk'
+//        exclude '**/*-unaligned.apk'
+//        rename('android-skin-loader-skin-release.apk', skinName)
+//    }
+//
+//    println("=====================assembleRelease.doLast success.=========================")
+//}
+
+//tasks.findByName("assembleDebug").doLast() {
+//    println("=====================assembleDebug.doLast.begin.=========================")
+//
+//    def dir = new File(TARGET_SKIN_DIR)
+//    if (!dir.exists()) {
+//        dir.mkdirs()
+//    }
+//
+//    def f = new File(TARGET_SKIN_DIR + skinName)
+//    if (f.exists()) {
+//        f.delete()
+//    }
+//
+//    copy {
+//        from('build/outputs/apk')
+//        into(TARGET_SKIN_DIR)
+//        include '*.apk'
+//        exclude '**/*-unaligned.apk'
+//        rename('android-skin-loader-skin-debug.apk', skinName)
+//    }
+//
+//    println("=====================assembleDebug.doLast success.=========================")
+//}
